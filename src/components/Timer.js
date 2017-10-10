@@ -1,37 +1,24 @@
-import React, { Component } from 'react';
-import Button from './Button.js';
+import React from 'react';
+import { Card, Button, CardHeader, CardBody, CardDeck,
+  CardTitle, CardText } from 'reactstrap';
 
-class Timer extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            buttonState: "Start"
-        };
-        this.changeButtonState = this.changeButtonState.bind(this);
-    }
-
-    changeButtonState() {
-        let tempState = "Start";
-        if(this.state.buttonState === "Start") {
-            tempState = "Stop";
-        }
-
-        this.setState({
-            buttonState: tempState
-        });
-    }
-
-  render() {
-    return (
-      <div>
-        <Button buttonState={this.state.buttonState} onClick={this.changeButtonState} />
-        <p>Stop button? //have to check design</p> 
-        <p>25:00 //time countdown?</p>
-        <p>//Make list of tasks with timers?</p>
-      </div>
-    );
-  }
-}
+const Timer = (props) => {
+  return (
+    <div style={ { width: '50%' } }>
+        <CardDeck>
+            <Card>
+                <CardHeader>Task title</CardHeader>
+                <CardBody>
+                <CardTitle>25:00</CardTitle>
+                <CardText>Task description</CardText>
+                <Button>Start</Button>{' '}
+                <Button>Stop</Button>
+                </CardBody>
+            </Card>
+            <Button>Add Task</Button>      
+      </CardDeck>
+    </div>
+  );
+};
 
 export default Timer;
