@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import Timer from './components/Timer.js';
+import TaskContainer from './components/TaskContainer.js';
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class App extends Component {
             </Nav>
           </Collapse>
         </Navbar>
-        <Timer />
+        <TaskContainer />
       </div>
     );
   }
