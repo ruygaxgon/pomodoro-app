@@ -1,38 +1,44 @@
 import React, { Component } from 'react';
-import { CardColumns, Button } from 'reactstrap';
-import Task from './Task.js';
-import './TaskContainer.css';
+import { CardColumns } from 'reactstrap';
+import Task from './taskComponent/Task.js';
+import AddTask from './taskComponent/AddTask.js';
 
 class TaskContainer extends Component {
   constructor() {
     super();
 
     this.state = {
-      tasks: []
+      task: { uuid: "", description: "", title: ""},
+      description: ""
     }
-    this.handleClick = this.handleClick.bind(this);
+    
+    this.addNewTask = this.addNewTask.bind(this);
+    this.refresh = this.refresh.bind(this);
   }
 
-  handleClick() {
-    var newTask = React.createElement(Task);
+  addNewTask(newTask) {
     this.setState({
-      tasks: this.state.tasks.concat(newTask)
-    })
+        task: newTask
+    });
+    console.log(this.state.task)
+  }
+
+  refresh(updatedTask) {
+    this.setState({
+      task: updatedTask
+    });
   }
 
   render() {
-    return (
-      <div>
+      const component = this;
+      return <div className="Content" >
         <CardColumns>
-          {
-            this.state.tasks.map(function(item) {
-              return item;
-            })
-          }
+            {
+              this.state.task !== {} ? null : <Task key={this.state.task.uuid} content={this.state.task} refresh={component.refresh}/>
+            }
         </CardColumns>
-        <Button className="Fixedbutton" onClick={this.handleClick} >Add Task</Button>
+        <AddTask addNewTask={this.addNewTask} />
       </div>
-    );
   }
 };
 

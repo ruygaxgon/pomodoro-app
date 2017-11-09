@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Card, Button, CardHeader, CardBody,ButtonGroup, ButtonDropdown, DropdownItem,
-    CardFooter,  CardTitle, CardText, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Card, Button, CardHeader, CardBody,
+    CardFooter,  CardTitle, CardText } from 'reactstrap';
+import DeleteTask from './DeleteTask.js';
+import EditTask from './EditTask.js';
 
 class Task extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            dropdownOpen: false,
             count: 1500,
             minutes: 25, // get this and change it everytime 60 seconds pass
             seconds: 60 // reset every 60 seconds
         }
 
-        this.toggle = this.toggle.bind(this);
         this.startTimer = this.startTimer.bind(this);
         this.stopTimer = this.stopTimer.bind(this);
         this.resetTimer = this.resetTimer.bind(this);
@@ -53,12 +53,6 @@ class Task extends Component {
         clearInterval(this.timer)
     }
 
-    toggle() {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen
-        })
-    }
-
     resetTimer() {
         this.setState({
             minutes: 25,
@@ -69,26 +63,17 @@ class Task extends Component {
     render() {
         return <div>
             <Card>
-                <CardHeader>Task title</CardHeader>
+                <CardHeader>{this.props.content.title}</CardHeader>
                 <CardBody>
                     <CardTitle>{this.state.minutes}:{this.state.seconds === 60 ? "00" : this.state.seconds}</CardTitle>
-                    <CardText>Task description</CardText>
+                    <CardText>{this.props.content.description}</CardText>
                 </CardBody>
                 <CardFooter>
-                    <ButtonGroup>
-                        <Button onClick={this.startTimer} >Start</Button>
-                        <Button onClick={this.stopTimer} >Stop</Button>
-                        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                        <DropdownToggle caret>
-                            Dropdown
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem onClick={this.resetTimer} >Reset</DropdownItem>
-                            <DropdownItem>Edit</DropdownItem>
-                            <DropdownItem>Delete</DropdownItem>
-                        </DropdownMenu>
-                        </ButtonDropdown>
-                    </ButtonGroup>
+                    <Button onClick={this.startTimer} >Start</Button>
+                    <Button onClick={this.stopTimer} >Stop</Button>
+                    <Button onClick={this.resetTimer} >Reset</Button>
+                    <EditTask task={this.props.content} refresh={this.props.refresh} />
+                    <DeleteTask/>
                 </CardFooter>
             </Card>    
         </div>
