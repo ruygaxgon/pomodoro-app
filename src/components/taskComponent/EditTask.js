@@ -25,7 +25,7 @@ class EditTask extends Component {
 
       handleTitleChange(e) {
         this.setState({
-          editTask: { description: this.state.editTask.description, link: e.target.value }
+          editTask: { description: this.state.editTask.description, title: e.target.value }
         })
       }
       
@@ -40,17 +40,7 @@ class EditTask extends Component {
           showModal: false
         });
 
-        this.props.refresh(this.state.editTask);
-        
-        // axios.put(url, this.state.editItem)
-        // .then(res => {
-        //   this.props.refresh();
-        //   console.log(res.data.message);
-        // }).catch(err => {
-        //   this.props.refresh();
-        //   console.error(err);
-        // });
-        
+        this.props.refresh(this.state.editTask);        
       }
       
       handleCloseModal () {
@@ -72,7 +62,8 @@ class EditTask extends Component {
                     value={this.state.editTask.title} onChange={this.handleTitleChange} />
                   </FormGroup>
                   <FormGroup>
-                    <Input type="textarea" placeholder="Description" value={this.state.editTask.description} onChange={this.handleDescriptionChange} />
+                    <Input type="textarea" placeholder="Description"
+                     value={this.state.editTask.description} onChange={this.handleDescriptionChange} />
                   </FormGroup>
                 </Form>
               </ModalBody>

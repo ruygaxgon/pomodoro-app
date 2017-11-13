@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Button, CardHeader, CardBody,
-    CardFooter,  CardTitle, CardText } from 'reactstrap';
+    CardFooter,  CardTitle, CardText, Row, Col } from 'reactstrap';
 import DeleteTask from './DeleteTask.js';
 import EditTask from './EditTask.js';
 
@@ -62,18 +62,30 @@ class Task extends Component {
 
     render() {
         return <div>
-            <Card>
+            <Card body className="text-center" >
                 <CardHeader>{this.props.content.title}</CardHeader>
                 <CardBody>
-                    <CardTitle>{this.state.minutes}:{this.state.seconds === 60 ? "00" : this.state.seconds}</CardTitle>
+                    <CardTitle><h1>{this.state.minutes}:{this.state.seconds === 60 ? "00" : this.state.seconds}</h1></CardTitle>
                     <CardText>{this.props.content.description}</CardText>
                 </CardBody>
                 <CardFooter>
-                    <Button onClick={this.startTimer} >Start</Button>
-                    <Button onClick={this.stopTimer} >Stop</Button>
-                    <Button onClick={this.resetTimer} >Reset</Button>
-                    <EditTask task={this.props.content} refresh={this.props.refresh} />
-                    <DeleteTask/>
+                    <Row>
+                        <Col>
+                            <Button onClick={this.startTimer} >Start</Button>
+                        </Col>
+                        <Col>
+                            <Button onClick={this.stopTimer} >Stop</Button>
+                        </Col>
+                        <Col>
+                            <Button onClick={this.resetTimer} >Reset</Button>
+                        </Col>
+                        <Col>
+                            <EditTask task={this.props.content} refresh={this.props.refresh} />
+                        </Col>
+                        <Col>
+                            <DeleteTask refresh={this.props.refresh} />
+                        </Col>
+                    </Row>
                 </CardFooter>
             </Card>    
         </div>

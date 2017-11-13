@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, FormGroup, Input } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Alert } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './AddTask.css';
 
@@ -8,7 +8,8 @@ class AddTask extends Component {
         super(props);
         this.state = {
           showModal: false,
-          newTask: { uuid: "", description: "", title: ""}
+          newTask: { description: "", title: ""},
+          visible: false
         };
         
         this.toggle = this.toggle.bind(this);
@@ -16,57 +17,55 @@ class AddTask extends Component {
         this.handleSaveModal = this.handleSaveModal.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.guid = this.guid.bind(this);
+        this.onDismiss = this.onDismiss.bind(this);
       }
 
       componentWillMount() {
         this.setState({
-          newTask: { uuid: this.guid(), description: "", title: ""}
+          newTask: { description: "", title: ""}
         });
       }
 
       handleDescriptionChange(e) {
         this.setState({
-          newTask: { uuid: this.state.newTask.uuid, description: e.target.value, title: this.state.newTask.title }
+          newTask: { description: e.target.value, title: this.state.newTask.title }
         })
       }
       
       handleTitleChange(e) {
         this.setState({
-          newTask: { uuid: this.state.newTask.uuid, description: this.state.newTask.description, title: e.target.value }
+          newTask: { description: this.state.newTask.description, title: e.target.value }
         })
-      }
-
-      guid() {
-        function s4() {
-          return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-          s4() + '-' + s4() + s4() + s4();
       }
 
       toggle() {
         this.setState({ 
             showModal: !this.state.showModal,
-            newTask: { uuid: this.state.newTask.uuid, description: "", title: ""}
+            newTask: { description: "", title: ""}
         });
       }
 
       handleSaveModal() {
-        this.setState({ 
-          showModal: false,
-          newTask: { uuid: this.guid(), description: this.state.newTask.description, title:  this.state.newTask.title }
-        });
-        
-        this.props.addNewTask(this.state.newTask);        
+        if(this.state.newTask.description === "" || this.state.newTask.title === "") {
+          this.setState({ visible: true });
+        } else {
+          this.setState({ 
+            showModal: false,
+            newTask: { description: this.state.newTask.description, title:  this.state.newTask.title }
+          });
+          
+          this.props.addNewTask(this.state.newTask);
+        }
+      }
+
+      onDismiss() {
+        this.setState({ visible: false });
       }
       
       handleCloseModal () {
         this.setState({ 
           showModal: false,
-          newTask: { uuid: "", description: "", title: ""}
+          newTask: { description: "", title: ""}
         });
       }
       
@@ -85,6 +84,9 @@ class AddTask extends Component {
                     <Input type="textarea" placeholder="Task description" value={this.state.newTask.description} onChange={this.handleDescriptionChange} />
                   </FormGroup>
                 </Form>
+                <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
+                  Title and/or description are empty.
+                </Alert>
               </ModalBody>
               <ModalFooter>
                 <Button color="primary" onClick={this.handleSaveModal}>Save</Button>

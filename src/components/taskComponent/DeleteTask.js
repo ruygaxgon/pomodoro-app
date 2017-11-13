@@ -23,7 +23,8 @@ class DeleteTask extends Component {
         this.setState({ 
           show: false
         });
-        console.log("Deleted");
+
+        this.props.refresh({ description: "", title: "" });
       }
       
       handleCloseModal () {

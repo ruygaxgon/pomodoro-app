@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { CardColumns } from 'reactstrap';
 import Task from './taskComponent/Task.js';
 import AddTask from './taskComponent/AddTask.js';
 
@@ -8,8 +7,7 @@ class TaskContainer extends Component {
     super();
 
     this.state = {
-      task: { uuid: "", description: "", title: ""},
-      description: ""
+      task: { description: "", title: "" }
     }
     
     this.addNewTask = this.addNewTask.bind(this);
@@ -31,13 +29,15 @@ class TaskContainer extends Component {
 
   render() {
       const component = this;
+      let task = null;
+      let addTask = <AddTask addNewTask={this.addNewTask} />;
+      if(this.state.task.description !== "" && this.state.task.title !== null) {
+        task = <Task content={this.state.task} refresh={component.refresh} />;
+        addTask = null;
+      }
       return <div className="Content" >
-        <CardColumns>
-            {
-              this.state.task !== {} ? null : <Task key={this.state.task.uuid} content={this.state.task} refresh={component.refresh}/>
-            }
-        </CardColumns>
-        <AddTask addNewTask={this.addNewTask} />
+        { task }
+        { addTask }
       </div>
   }
 };
